@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:camera/src/camera_image.dart';
 import 'package:camera_capture_plugin/camera_capture_plugin.dart';
 import 'package:camera_capture_plugin/camera_capture_plugin_method_channel.dart';
@@ -12,7 +14,7 @@ class MockCameraCapturePluginPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<String?> handleCameraImage(int width, int height, List<Plane> planes) => Future.value('');
+  Future<Uint8List?> handleCameraImage(int width, int height, List<Plane> planes) => Future.value();
 }
 
 void main() {

@@ -17,8 +17,8 @@ class MethodChannelCameraCapturePlugin extends CameraCapturePluginPlatform {
   }
 
   @override
-  Future<String?> handleCameraImage(int width, int height, List<Plane> planes) async {
-    final jpegData = await methodChannel.invokeMethod<String>(
+  Future<Uint8List?> handleCameraImage(int width, int height, List<Plane> planes) async {
+    final jpegData = await methodChannel.invokeMethod<Uint8List>(
       'handleCameraImage',
       <String, dynamic>{
         'width': width,

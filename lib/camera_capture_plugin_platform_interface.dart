@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:camera/camera.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -28,7 +30,7 @@ abstract class CameraCapturePluginPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> handleCameraImage(int width, int height, List<Plane> planes) {
+  Future<Uint8List?> handleCameraImage(int width, int height, List<Plane> planes) {
     throw UnimplementedError('handleCameraImage() has not been implemented.');
   }
 }

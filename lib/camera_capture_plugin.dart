@@ -8,7 +8,7 @@ class CameraCapturePlugin {
     return CameraCapturePluginPlatform.instance.getPlatformVersion();
   }
 
-  Future<String?> handleCameraImage(CameraImage cameraImage) async {
+  Future<Uint8List?> handleCameraImage(CameraImage cameraImage) async {
     try {
       final jpegData = await CameraCapturePluginPlatform.instance.handleCameraImage(
         cameraImage.width,
