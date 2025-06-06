@@ -4,10 +4,6 @@ import 'package:flutter/services.dart';
 import 'camera_capture_plugin_platform_interface.dart';
 
 class CameraCapturePlugin {
-  CameraCapturePlugin._(); // private constructor
-
-  static final CameraCapturePlugin instance = CameraCapturePlugin._();
-
   Future<String?> getPlatformVersion() {
     return CameraCapturePluginPlatform.instance.getPlatformVersion();
   }
