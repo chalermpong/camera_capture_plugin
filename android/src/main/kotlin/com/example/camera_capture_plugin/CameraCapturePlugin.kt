@@ -1,10 +1,17 @@
 package com.example.camera_capture_plugin
 
+import android.graphics.ImageFormat
+import android.graphics.Rect
+import android.graphics.YuvImage
+import android.os.Handler
+import android.os.Looper
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import java.io.ByteArrayOutputStream
 
 /** CameraCapturePlugin */
 class CameraCapturePlugin: FlutterPlugin, MethodCallHandler {
@@ -20,7 +27,7 @@ class CameraCapturePlugin: FlutterPlugin, MethodCallHandler {
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
-    switch (call.method) {
+    when (call.method) {
       "getPlatformVersion" -> result.success("Android ${android.os.Build.VERSION.RELEASE}")
       "handleCameraImage" -> handleCameraImage(call, result)
       else -> result.notImplemented()
