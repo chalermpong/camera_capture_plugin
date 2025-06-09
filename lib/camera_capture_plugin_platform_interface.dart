@@ -31,6 +31,6 @@ abstract class CameraCapturePluginPlatform extends PlatformInterface {
   }
 
   Future<Uint8List?> handleCameraImage(int width, int height, List<Plane> planes) {
-    throw UnimplementedError('handleCameraImage() has not been implemented.');
+    throw UnimplementedError('handleCameraImage(*) has not been implemented.');
   }
 }
