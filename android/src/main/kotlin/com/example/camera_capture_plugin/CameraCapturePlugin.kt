@@ -1,11 +1,13 @@
 package com.example.camera_capture_plugin
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageFormat
+import android.graphics.Matrix
 import android.graphics.Rect
 import android.graphics.YuvImage
 import android.os.Handler
 import android.os.Looper
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -36,7 +38,8 @@ class CameraCapturePlugin: FlutterPlugin, MethodCallHandler {
 
   private fun handleCameraImage(call: MethodCall, result: MethodChannel.Result) {
     val arg = (call.arguments as? Map<String, *>)
-    val bytes: ByteArray? = arg?.get("planes") as? ByteArray
+    val planes = arg?.get("planes") as? List<Map<String, *>>
+    val bytes: ByteArray? = planes?.firstOrNull()?.get("bytes") as? ByteArray
     val width: Int? = arg?.get("width") as? Int
     val height: Int? = arg?.get("height") as? Int
     val quality: Int = 85
@@ -49,10 +52,25 @@ class CameraCapturePlugin: FlutterPlugin, MethodCallHandler {
     Thread {
       val out = ByteArrayOutputStream()
       val yuv = YuvImage(bytes, ImageFormat.NV21, width, height, null)
+
       yuv.compressToJpeg(Rect(0, 0, width, height), quality, out)
+
       val converted = out.toByteArray()
+
+      val bitmap = BitmapFactory.decodeByteArray(converted, 0, converted.size)
+      val matrix = Matrix()
+      matrix.postRotate(90f)
+
+      val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true);
+      bitmap.recycle()
+
+      val baos = ByteArrayOutputStream()
+      rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos)
+      rotatedBitmap.recycle()
+      val imageBytes = baos.toByteArray()
+
       Handler(Looper.getMainLooper()).post {
-        result.success(converted)
+        result.success(imageBytes)
       }
     }.start()
   }
